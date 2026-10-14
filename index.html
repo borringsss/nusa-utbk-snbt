@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>NusaUTBK - Platform Belajar & Tryout UTBK-SNBT Fullstack</title>
+    <style>
+          * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+          body { background-color: #f8fafc; color: #1e293b; transition: background 0.2s, color 0.2s; }
+          body.dark { background-color: #0f172a; color: #f1f5f9; }
+          nav { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+          body.dark nav { background: #1e293b; border-color: #334155; }
+          .logo { font-size: 1.5rem; font-weight: 900; color: #2563eb; }
+          .nav-btn { background: none; border: none; padding: 0.5rem 1rem; margin: 0 0.25rem; font-weight: 600; cursor: pointer; color: inherit; border-radius: 0.5rem; }
+          .nav-btn:hover { background: #f1f5f9; }
+          body.dark .nav-btn:hover { background: #334155; }
+          .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+          .card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+          body.dark .card { background: #1e293b; border-color: #334155; }
+          .hero { background: linear-gradient(135deg, #2563eb, #4f46e5); color: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem; }
+          .btn { background: #2563eb; color: white; padding: 0.6rem 1.2rem; border-radius: 0.5rem; border: none; font-weight: 600; cursor: pointer; margin-right: 0.5rem; }
+          .btn:hover { opacity: 0.9; }
+          .btn-emerald { background: #059669; }
+          .btn-warning { background: #d97706; }
+          .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+          .grid-4 { display: grid; grid-template-columns: 3fr 1fr; gap: 1.5rem; }
+          .timer { font-size: 1.25rem; font-weight: 700; color: #dc2626; background: #fee2e2; padding: 0.25rem 0.75rem; border-radius: 0.5rem; font-family: monospace; }
+          body.dark .timer { background: #450a0a; color: #fca5a5; }
+          .q-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+          .q-btn { width: 36px; height: 36px; border-radius: 0.5rem; border: 1px solid #cbd5e1; background: #f1f5f9; font-weight: bold; cursor: pointer; }
+          .q-btn.ans { background: #2563eb; color: white; border-color: #2563eb; }
+          .q-btn.doubt { background: #d97706; color: white; border-color: #d97706; }
+          .opt-btn { width: 100%; text-align: left; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; background: none; margin-bottom: 0.5rem; cursor: pointer; color: inherit; font-size: 0.95rem; }
+          .opt-btn.selected { background: #dbeafe; border-color: #2563eb; font-weight: bold; }
+          body.dark .opt-btn.selected { background: #1e3a8a; border-color: #3b82f6; }
+          .hidden { display: none !important; }
+          .flashcard { width: 100%; max-width: 400px; height: 220px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 1rem; display: flex; align-items: center; justify-content: center; text-align: center; padding: 1.5rem; font-size: 1.2rem; font-weight: bold; cursor: pointer; background: #ffffff; }
+          body.dark .flashcard { background: #1e293b; border-color: #334155; }
+          input, select { width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; margin-bottom: 0.75rem; background: inherit; color: inherit; }
+        </style>
+  </head>
+  <body>
+      <nav>
+            <div class="logo">NusaUTBK <span style="font-size:0.75rem; background:#dbeafe; color:#1e40af; padding:0.2rem 0.5rem; border-radius:1rem;">IRT Fullstack</span>span></div>div>
+            <div>
+                    <button onclick="switchTab('dashboard')" class="nav-btn">Dashboard</button>button>
+                    <button onclick="switchTab('cbt')" class="nav-btn">Simulasi CBT</button>button>
+                    <button onclick="switchTab('flashcards')" class="nav-btn">Flashcard</button>button>
+                    <button onclick="switchTab('leaderboard')" class="nav-btn">Leaderboard</button>button>
+                    <button onclick="switchTab('bank')" class="nav-btn">Bank Soal</button>button>
+                    <button onclick="toggleDarkMode()" class="nav-btn">Dark/Light</button>button>
+            </div>
+      </nav>
+
+      <div class="container">
+            <div id="tab-dashboard" class="tab-content">
+                    <div class="hero">
+                              <h1>Selamat Datang di NusaUTBK!</h1>
+                            <p style="margin-top:0.5rem; opacity:0.9;">Platform Tryout UTBK-SNBT Fullstack dengan Sistem Penilaian IRT (Skala 300 - 800).</p>p>
+                            <div style="margin-top:1.5rem;">
+                                      <button onclick="switchTab('cbt')" class="btn btn-emerald">Mulai Tryout CBT</button>button>
+                                      <button onclick="switchTab('flashcards')" class="btn">Flashcard Kilat</button>button>
+                            </div>
+                    </div>
+                  <div class="grid-3">
+                          <div class="card">
+                                    <h4 style="color:#64748b;">Rata-Rata Skor IRT</h4>
+                                    <h2 style="font-size:2rem; color:#2563eb; margin-top:0.5rem;">685</h2>
+                          </div>
+                          <div class="card">
+                                    <h4 style="color:#64748b;">7 Subtes Resmi SNBT</h4>
+                                    <p style="font-weight:bold; color:#059669; margin-top:0.5rem;">PU, PPU, PBM, PK, LBI, LBE, PM</p>p>
+                          </div>
+                          <div class="card">
+                                    <h4 style="color:#64748b;">Pomodoro Timer (25 Min)</h4>
+                                    <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.5rem;">
+                                                <span id="pomo-time" class="timer">25:00</span>span>
+                                                <button onclick="startPomodoro()" class="btn" style="padding:0.3rem 0.6rem;">Start</button>button>
+                                                <button onclick="resetPomodoro()" class="btn" style="background:#64748b; padding:0.3rem 0.6rem;">Reset</button>button>
+                                    </div>
+                          </div>
+                  </div>
+            </div>
+      
+          <div id="tab-cbt" class="tab-content hidden">
+                <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                                  <h3 id="subtest-title">Subtes 1: Penalaran Umum (PU)</h3>
+                                  <span style="font-size:0.8rem; background:#fef3c7; color:#92400e; padding:0.2rem 0.5rem; border-radius:0.25rem; font-weight:bold;">Bobot IRT: HOTS High</span>span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                                  <label style="font-size:0.85rem; cursor:pointer;">
+                                              <input type="checkbox" id="mode-belajar" onchange="toggleModeBelajar()"> Mode Belajar (Pembahasan)
+                                  </label>label>
+                                  <div id="cbt-timer" class="timer">15:00</div>
+                        </div>
+                </div>
+                <div class="grid-4">
+                        <div class="card">
+                                  <h3 id="cbt-question" style="margin-bottom:1rem;">Loading soal...</h3>
+                                  <div id="cbt-options"></div>
+                                  <div id="cbt-explanation" class="hidden" style="margin-top:1rem; padding:1rem; background:#eff6ff; border-radius:0.5rem; color:#1e40af; font-size:0.9rem;"></div>
+                                  <div style="margin-top:1.5rem; display:flex; justify-content:space-between;">
+                                              <button onclick="toggleDoubt()" class="btn btn-warning">Ragu-Ragu</button>button>
+                                              <div>
+                                                            <button onclick="prevQuestion()" class="btn" style="background:#64748b;">Sebelumnya</button>button>
+                                                            <button onclick="nextQuestion()" class="btn">Selanjutnya</button>button>
+                                                            <button onclick="submitTryout()" class="btn btn-emerald">Selesai Tryout</button>button>
+                                              </div>
+                                  </div>
+                        </div>
+                        <div class="card">
+                                  <h4>Peta Nomor Soal</h4>
+                                  <div id="question-grid" class="q-grid" style="margin-top:1rem;"></div>
+                        </div>
+                </div>
+                <div id="cbt-result" class="card hidden" style="background:#ecfdf5; border-color:#a7f3d0; text-align:center;">
+                        <h2 style="color:#047857;">Hasil Simulasi IRT</h2>
+                        <h1 id="final-irt-score" style="font-size:3rem; margin:0.5rem 0;">720 / 800</h1>
+                        <p style="color:#065f46;">Akurasi tinggi pada soal HOTS berbobot tinggi.</p>p>
+                </div>
+          </div>
+      
+          <div id="tab-flashcards" class="tab-content hidden">
+                <h2 style="margin-bottom:1rem;">Flashcard Konsep Kilat</h2>
+                <div class="flashcard" onclick="flipCard()" id="flashcard-box">
+                        Rumus Modus Data Kelompok (PM)
+                </div>
+                <p style="text-align:center; font-size:0.8rem; color:#64748b; margin-top:0.5rem;">Klik kartu untuk melihat jawaban</p>p>
+          </div>
+      
+          <div id="tab-leaderboard" class="tab-content hidden">
+                <div class="card">
+                        <h3>Leaderboard & Rasionalisasi PTN</h3>
+                        <div style="display:flex; gap:0.5rem; margin:1rem 0;">
+                                  <input id="target-ptn" placeholder="Target PTN & Jurusan (misal: UI - Teknik Informatika)">
+                                  <button onclick="calculateRasionalisasi()" class="btn" style="white-space:nowrap;">Cek Peluang</button>button>
+                        </div>
+                        <div id="rasionalisasi-result" style="font-weight:bold; color:#2563eb; margin-bottom:1rem;"></div>
+                        <table style="width:100%; text-align:left; border-collapse:collapse;">
+                                  <thead>
+                                                <tr style="border-bottom:1px solid #cbd5e1;"><th style="padding:0.5rem;">Rank</th>th><th style="padding:0.5rem;">Nama</th>th><th style="padding:0.5rem;">Skor IRT</th>th><th style="padding:0.5rem;">Target PTN</th>th></tr>tr>
+                                  </thead>
+                                    <tbody>
+                                                  <tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:0.5rem;">1</td>td><td>Budi Santoso</td><td>782</td><td>ITB - STEI</td></tr>tr>
+                                    <tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:0.5rem;">2</td><td>Siti Rahma</td><td>765</td><td>UI - Kedokteran</td></tr>tr>
+                                    <tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:0.5rem;">3</td><td>Ahmad Fali</td><td>740</td><td>UGM - Akuntansi</td></tr>tr>
+                                    </tbody>
+                        </table>table>
+                </div>
+          </div>
+      
+          <div id="tab-bank" class="tab-content hidden">
+                <div class="card">
+                        <h3>Bank Soal & CRUD Manager</h3>
+                        <form onsubmit="addQuestion(event)" style="margin-top:1rem;">
+                                  <input id="q-subtest" placeholder="Subtes (PU, PK, LBI, LBE, PPU, PBM, PM)" required>
+                                  <input id="q-weight" type="number" step="0.1" placeholder="Bobot IRT (1.0 - 3.0)" required>
+                                  <input id="q-text" placeholder="Pertanyaan Soal HOTS" required>
+                                  <input id="q-ans" placeholder="Kunci Jawaban" required>
+                                  <button type="submit" class="btn btn-emerald" style="width:100%;">Tambah Soal ke Bank</button>button>
+                        </form>form>
+                        <div id="bank-list" style="margin-top:1.5rem;"></div>
+                </div>
+          </div>
+      </div>
+  
+    <script>
+          let questions = JSON.parse(localStorage.getItem('nusa_questions')) || [
+            { id: 1, subtest: 'PU', text: 'Jika semua A adalah B, dan sebagian B adalah C, maka...', options: ['Semua A adalah C', 'Sebagian A adalah C', 'Tidak dapat disimpulkan', 'Semua C adalah A'], answer: 2, weight: 2.5, explanation: 'Tidak ada hubungan langsung antara A dan C.' },
+            { id: 2, subtest: 'PK', text: 'Nilai dari 2^3 + 3^2 adalah...', options: ['12', '17', '25', '14'], answer: 1, weight: 1.8, explanation: '8 + 9 = 17.' }
+                ];
+          let currentIndex = 0;
+          let userAnswers = {};
+          let doubtAnswers = {};
+          let isFlipped = false;
+          let pomoInterval;
+
+          function switchTab(t) {
+                  document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+                  document.getElementById('tab-' + t).classList.remove('hidden');
+          }
+          function toggleDarkMode() { document.body.classList.toggle('dark'); }
+
+          function renderQuestion() {
+                  if (!questions.length) return;
+                  const q = questions[currentIndex];
+                  document.getElementById('subtest-title').innerText = `Subtes: ${q.subtest}`;
+                  document.getElementById('cbt-question').innerText = `${currentIndex + 1}. ${q.text}`;
+                  const optDiv = document.getElementById('cbt-options');
+                  optDiv.innerHTML = '';
+                  q.options.forEach((opt, idx) => {
+                            const btn = document.createElement('button');
+                            btn.className = `opt-btn ${userAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                            btn.innerText = `${String.fromCharCode(65 + idx)}. ${opt}`;
+                            btn.onclick = () => { userAnswers[currentIndex] = idx; renderQuestion(); };
+                            optDiv.appendChild(btn);
+                  });
+                  renderGrid();
+                  if (document.getElementById('mode-belajar').checked) {
+                            const exp = document.getElementById('cbt-explanation');
+                            exp.classList.remove('hidden');
+                            exp.innerText = `Pembahasan (Kunci: ${String.fromCharCode(65 + q.answer)}): ${q.explanation || 'Pembahasan standar IRT.'}`;
+                  } else {
+                            document.getElementById('cbt-explanation').classList.add('hidden');
+                  }
+          }
+
+          function toggleDoubt() { doubtAnswers[currentIndex] = !doubtAnswers[currentIndex]; renderGrid(); }
+
+          function renderGrid() {
+                  const grid = document.getElementById('question-grid');
+                  grid.innerHTML = '';
+                  questions.forEach((_, idx) => {
+                            const btn = document.createElement('button');
+                            let cls = 'q-btn';
+                            if (userAnswers[idx] !== undefined) cls += ' ans';
+                            if (doubtAnswers[idx]) cls += ' doubt';
+                            btn.className = cls;
+                            btn.innerText = idx + 1;
+                            btn.onclick = () => { currentIndex = idx; renderQuestion(); };
+                            grid.appendChild(btn);
+                  });
+          }
+
+          function prevQuestion() { if (currentIndex > 0) { currentIndex--; renderQuestion(); } }
+          function nextQuestion() { if (currentIndex < questions.length - 1) { currentIndex++; renderQuestion(); } }
+
+          function toggleModeBelajar() { renderQuestion(); }
+
+          function submitTryout() {
+                  let totalW = 0, earnedW = 0;
+                  questions.forEach((q, idx) => {
+                            const w = q.weight || 2.0;
+                            totalW += w;
+                            if (userAnswers[idx] === q.answer) earnedW += w;
+                  });
+                  const score = Math.round(300 + (earnedW / (totalW || 1)) * 500);
+                  document.getElementById('final-irt-score').innerText = `${score} / 800`;
+                  document.getElementById('cbt-result').classList.remove('hidden');
+                  fetch('/api/tryouts', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ score, date: new Date() }) }).catch(() => {});
+          }
+
+          function flipCard() {
+                  const box = document.getElementById('flashcard-box');
+                  isFlipped = !isFlipped;
+                  box.innerText = isFlipped ? "Mo = Tb + (d1 / (d1 + d2)) * p" : "Rumus Modus Data Kelompok (PM)";
+          }
+
+          function startPomodoro() {
+                  let sec = 25 * 60;
+                  clearInterval(pomoInterval);
+                  pomoInterval = setInterval(() => {
+                            sec--;
+                            if (sec <= 0) clearInterval(pomoInterval);
+                            const m = String(Math.floor(sec / 60)).padStart(2, '0');
+                            const s = String(sec % 60).padStart(2, '0');
+                            document.getElementById('pomo-time').innerText = `${m}:${s}`;
+                  }, 1000);
+          }
+          function resetPomodoro() { clearInterval(pomoInterval); document.getElementById('pomo-time').innerText = "25:00"; }
+
+          function calculateRasionalisasi() {
+                  const target = document.getElementById('target-ptn').value;
+                  const res = document.getElementById('rasionalisasi-result');
+                  if (!target) return res.innerText = "Harap isi nama PTN!";
+                  res.innerText = `Peluang Lolos ke ${target}: TINGGI (Rekomendasi Skor IRT ≥ 670)`;
+          }
+
+          function addQuestion(e) {
+                  e.preventDefault();
+                  const subtest = document.getElementById('q-subtest').value;
+                  const weight = parseFloat(document.getElementById('q-weight').value);
+                  const text = document.getElementById('q-text').value;
+                  const ans = document.getElementById('q-ans').value;
+                  const newQ = { id: Date.now(), subtest, text, options: [ans, 'Pilihan B', 'Pilihan C', 'Pilihan D'], answer: 0, weight, explanation: 'Soal dari input Bank Soal.' };
+                  questions.push(newQ);
+                  localStorage.setItem('nusa_questions', JSON.stringify(questions));
+                  renderBank();
+                  renderQuestion();
+                  fetch('/api/questions', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(newQ) }).catch(() => {});
+          }
+
+          function renderBank() {
+                  const list = document.getElementById('bank-list');
+                  list.innerHTML = '';
+                  questions.forEach((q, idx) => {
+                            const item = document.createElement('div');
+                            item.style.cssText = 'padding:0.5rem; background:#f1f5f9; margin-bottom:0.5rem; border-radius:0.5rem; display:flex; justify-content:space-between; align-items:center; font-size:0.9rem;';
+                            item.innerHTML = `<span>[${q.subtest}] ${q.text}</span><button onclick="deleteQuestion(${idx})" style="color:#dc2626; border:none; background:none; font-weight:bold; cursor:pointer;">Hapus</button>`;
+                            list.appendChild(item);
+                  });
+          }
+
+          function deleteQuestion(idx) {
+                  questions.splice(idx, 1);
+                  localStorage.setItem('nusa_questions', JSON.stringify(questions));
+                  renderBank();
+                  renderQuestion();
+          }
+
+          fetch('/api/questions').then(r => r.json()).then(data => { if(Array.isArray(data) && data.length) { questions = data; renderBank(); renderQuestion(); } }).catch(() => {});
+
+          renderQuestion();
+          renderBank();
+    </script>
+  </body>
+</html>html>
+    </script></td></td>
+                                    </tbody>
+                                  </thead></h4></h1>
+            </div>
+      </nav>
+  </body>
+    </style></title>
+  </head>
